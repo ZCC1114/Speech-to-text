@@ -1,9 +1,10 @@
 import argparse
 from dataclasses import dataclass
-
+from typing import List
 
 import os
 from typing import List, Tuple
+
 
 import whisper
 from pyannote.audio import Pipeline
