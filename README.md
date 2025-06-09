@@ -16,8 +16,11 @@
    ```
 
 脚本会调用 `whisper` 进行转写，并通过 `pyannote.audio` 完成说话人分离，最终按 “A:” / “B:” 的形式保存到指定文件。
+
 3. 启动 Web 测试页：
    ```bash
    python web_app.py
    ```
    打开浏览器访问 `http://localhost:5000`，上传音频文件即可查看 AB 对话文本。
+
+
