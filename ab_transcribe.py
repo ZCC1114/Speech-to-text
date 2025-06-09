@@ -1,5 +1,8 @@
 import argparse
 from dataclasses import dataclass
+
+
+import os
 from typing import List, Tuple
 
 import whisper
@@ -17,7 +20,18 @@ def transcribe(audio_path: str) -> List[Segment]:
     """Transcribe audio and assign speaker labels."""
     model = whisper.load_model("base")
     result = model.transcribe(audio_path, language="zh")
+    hf_token = os.getenv("HF_TOKEN")
+    if not hf_token:
+        raise RuntimeError("HF_TOKEN environment variable not set; cannot load pyannote model")
 
+    pipeline = Pipeline.from_pretrained(
+        "pyannote/speaker-diarization", use_auth_token=hf_token
+    )
+    if pipeline is None:
+        raise RuntimeError(
+            "Failed to load 'pyannote/speaker-diarization'. Check HF_TOKEN and"
+            " whether you've accepted the model license."
+        )
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization")
     diarization = pipeline(audio_path)
 
